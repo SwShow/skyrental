@@ -1,7 +1,7 @@
 <?php
-require_once("./helpers.php");
-require_once("./functions.php");
-require_once('./data.php');
+require_once("helpers.php");
+require_once("functions.php");
+require_once('data.php');
 
 if ((isset($categories)) && (isset($goods))) {
 $page_content = include_template("./templates/main.php", [

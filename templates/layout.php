@@ -1,5 +1,5 @@
 <?php
-require_once ("index.php") or die("Файл не найден");
+require_once ("../index.php");
 $is_auth = rand(0, 1);
 $user_name = 'Lana'; // укажите здесь ваше имя
 ?>
@@ -59,11 +59,11 @@ $user_name = 'Lana'; // укажите здесь ваше имя
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-            <?php if (isset($categories)) foreach ($categories as $category): ?>
+            <?php if (isset($categories)) { foreach ($categories as $category): ?>
             <li class="nav__item">
                 <a href="../pages/all-lots.html"><?= $category; ?></a>
             </li>
-            <?php endforeach; ?>
+            <?php endforeach; } ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
