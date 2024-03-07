@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Регистрация</title>
+  <title>Главная</title>
   <link href="../css/normalize.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -13,77 +13,132 @@
   <header class="main-header">
     <div class="main-header__container container">
       <h1 class="visually-hidden">YetiCave</h1>
-      <a class="main-header__logo" href="index.html">
+      <a class="main-header__logo">
         <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
       </a>
       <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru" autocomplete="off">
-        <input type="search" name="search" placeholder="Поиск лота">
+        <label>
+          <input type="search" name="search" placeholder="Поиск лота">
+        </label>
         <input class="main-header__search-btn" type="submit" name="find" value="Найти">
       </form>
       <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
       <nav class="user-menu">
-        <ul class="user-menu__list">
-          <li class="user-menu__item">
-            <a href="sign-up.html">Регистрация</a>
-          </li>
-          <li class="user-menu__item">
-            <a href="login.html">Вход</a>
-          </li>
-        </ul>
+        <div class="user-menu__logged">
+          <p>Константин</p>
+          <a href="login.html">Выйти</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main>
-    <nav class="nav">
-      <ul class="nav__list container">
-        <li class="nav__item">
-          <a href="all-lots.html">Доски и лыжи</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Крепления</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Ботинки</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Одежда</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Инструменты</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Разное</a>
-        </li>
+  <main class="container">
+    <section class="promo">
+      <h2 class="promo__title">Нужен стафф для катки?</h2>
+      <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
+
+      <ul class="promo__list">
+          <?php
+          require_once "../config/connect.php";
+          $get_categories = mysqli_query($connect, "SELECT symbol_code, name_category FROM `categories`;");
+          $arr_categories = mysqli_fetch_all($get_categories);
+          foreach ($arr_categories as $category): { ?>
+          <li class="promo__item promo__item&#45;&#45;<?=$category[0]?>">
+              <a class="promo__link" href="all-lots.html"><?=$category[1]?></a>
+          </li>
+              <?php }
+              endforeach;
+              ?>
       </ul>
-    </nav>
-    <form class="form container form--invalid" action="https://echo.htmlacademy.ru" method="post" autocomplete="off"> <!-- form
-    --invalid -->
-      <h2>Регистрация нового аккаунта</h2>
-      <div class="form__item"> <!-- form__item--invalid -->
-        <label for="email">E-mail <sup>*</sup></label>
-        <input id="email" type="text" name="email" placeholder="Введите e-mail">
-        <span class="form__error">Введите e-mail</span>
+    </section>
+    <section class="lots">
+      <div class="lots__header">
+        <h2>Открытые лоты</h2>
       </div>
-      <div class="form__item">
-        <label for="password">Пароль <sup>*</sup></label>
-        <input id="password" type="password" name="password" placeholder="Введите пароль">
-        <span class="form__error">Введите пароль</span>
-      </div>
-      <div class="form__item">
-        <label for="name">Имя <sup>*</sup></label>
-        <input id="name" type="text" name="name" placeholder="Введите имя">
-        <span class="form__error">Введите имя</span>
-      </div>
-      <div class="form__item">
-        <label for="message">Контактные данные <sup>*</sup></label>
-        <textarea id="message" name="message" placeholder="Напишите как с вами связаться"></textarea>
-        <span class="form__error">Напишите как с вами связаться</span>
-      </div>
-      <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
-      <button type="submit" class="button">Зарегистрироваться</button>
-      <a class="text-link" href="#">Уже есть аккаунт</a>
-    </form>
+      <ul class="lots__list">
+          <?php
+          $get_lots = mysqli_query($connect, "select title, img, start_price, date_creation, 
+       date_finish, name_category, lot_id, count(lot_id),
+       max(price_bet) from lots
+join categories c on c.id = lots.category_id
+left join bets b on lots.id = b.lot_id
+where date_finish > now()
+group by lot_id, img, start_price, date_creation, date_finish, name_category, title
+order by date_creation desc;");
+          $arr_lots = mysqli_fetch_all($get_lots);
+          foreach ($arr_lots as $lot): { ?>
+          <li class="lots__item lot">
+              <div class="lot__image">
+                  <img src="../<?=$lot[1]?>" width="350" height="260" alt="<?=$lot[5]?>">
+              </div>
+              <div class="lot__info">
+                  <span class="lot__category"><?=$lot[5]?></span>
+                  <h3 class="lot__title"><a class="text-link" href="lot.html"><?=$lot[0] ?></a></h3>
+                  <div class="lot__state">
+                      <?php
+                      if ($lot[7] == 0) { ?>
+                      <div class="lot__rate">
+                          <span class="lot__amount">Стартовая цена</span>
+                          <span class="lot__cost"><?=$lot[2]?><b class="rub">р</b></span>
+                      </div>
+                      <?php } else { ?>
+                         <div class="lot__rate">
+                <span class="lot__amount"><?=$lot[7] ?>ставок</span>
+                <span class="lot__cost"><?=$lot[8] ?><b class="rub">р</b></span>
+              </div>
+                      <?php } ?>
+                      <div class="lot__timer timer">
+                          <?php $date = strtotime($lot[4]);
+                          $interval = floor(($date - time()) / (60*60*24));
+                          echo "$interval дней до конца торгов";
+                          ?>
+                      </div>
+
+                  </div>
+              </div>
+          </li>
+          <?php }
+          endforeach;
+          ?>
+      </ul>
+
+        <!--<li class="lots__item lot">
+          <div class="lot__image">
+            <img src="../img/lot-1.jpg" width="350" height="260" alt="Сноуборд">
+          </div>
+          <div class="lot__info">
+            <span class="lot__category">Доски и лыжи</span>
+            <h3 class="lot__title"><a class="text-link" href="lot.html">2014 Rossignol District Snowboard</a></h3>
+            <div class="lot__state">
+              <div class="lot__rate">
+                <span class="lot__amount">Стартовая цена</span>
+                <span class="lot__cost">10 999<b class="rub">р</b></span>
+              </div>
+              <div class="lot__timer timer">
+                16:54:12
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="lots__item lot">
+          <div class="lot__image">
+            <img src="../img/lot-2.jpg" width="350" height="260" alt="Сноуборд">
+          </div>
+          <div class="lot__info">
+            <span class="lot__category">Доски и лыжи</span>
+            <h3 class="lot__title"><a class="text-link" href="lot.html">DC Ply Mens 2016/2017 Snowboard</a></h3>
+            <div class="lot__state">
+              <div class="lot__rate">
+                <span class="lot__amount">12 ставок</span>
+                <span class="lot__cost">15 999<b class="rub">р</b></span>
+              </div>
+              <div class="lot__timer timer timer--finishing">
+                00:54:12
+              </div>
+            </div>
+          </div>
+         </li>-->
+    </section>
   </main>
 
 </div>
@@ -91,24 +146,14 @@
 <footer class="main-footer">
   <nav class="nav">
     <ul class="nav__list container">
-      <li class="nav__item">
-        <a href="all-lots.html">Доски и лыжи</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Крепления</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Ботинки</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Одежда</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Инструменты</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Разное</a>
-      </li>
+        <?php
+        foreach ($arr_categories as $category): { ?>
+        <li class="nav__item">
+            <a href="all-lots.html"><?=$category[1]?></a>
+        </li>
+            <?php }
+            endforeach;
+        ?>
     </ul>
   </nav>
   <div class="main-footer__bottom container">

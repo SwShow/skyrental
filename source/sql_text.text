@@ -1,0 +1,72 @@
+SET @@auto_increment_offset = 1;
+
+INSERT INTO categories (symbol_code, name_category) VALUE ("boards", "Доски и лыжи"),
+    ("attachment", "Крепления"),
+    ("boots", "Ботинки"),
+    ("clothing", "Одежда"),
+    ("tools", "Инструменты"),
+    ("other", "Разное");
+
+select * from categories;
+
+// занесено в базу из программе
+$connect = mysqli_connect('localhost', 'root', 'password',
+    'yeticave');
+
+if(!$connect) {
+    die('Ошибка соединения с датабазой');
+}
+$password_hash7 = password_hash('user7', PASSWORD_DEFAULT);
+//echo($password_hash3);
+
+mysqli_query($connect, "INSERT INTO `users`(`date_registration`, `email`, `user_name`, `user_password`, `contacts`)
+     VALUES(now(), 'user7@example.com', 'user7', '$password_hash7', 'Ulianovsk, Makarova street');");
+
+     goods = mysqli_query($connect, "SELECT * FROM users;");
+     $row = mysqli_fetch_row($goods);  // вызывать для каждой строки
+     var_dump($row);*/
+     /*echo "<p>Пользователи</p>\n<ul>";
+     while ($row = mysqli_fetch_row($goods)) {
+         echo "<li>Почта: {$row[1]}, Имя: {$row[3]}</li>\n";
+     }
+     echo "</ul>";
+
+ $res = mysqli_fetch_all($goods);  // вызывать для всех строк
+ //var_dump($res);
+ foreach ($res as $r): {
+     //echo $r;
+     echo " Почта: {$r[2]}, Имя: {$r[3]}";
+ }; endforeach;
+
+// занесено через консоль
+SELECT * FROM users;
+
+insert into lots (date_creation, title, lot_description, img, start_price, date_finish, step, user_id, category_id)
+values (now(), "2014 Rossignol District Snowboard", "Практически новый сноуборд, катался 1 сезон", "img/lot-1.jpg",
+        1099, "2024-05-05 23:59:59", 200, 1, 1),
+(now(), "Крепления Union Contact Pro 2015 года размер L/XL", "Новые, не пригодились", "img/lot-4.jpg", 10988,
+        "2024-06-01 23:59:59", 100, 2, 2);
+
+select * from lots;
+
+insert into bets (date_bet, price_bet, user_id, lot_id) VALUE
+(now(), 1299, 1, 2);
+
+select * from bets;
+
+select name_category from categories join lots l on categories.id = l.category_id
+where categories.id = category_id;
+update bets set price_bet = 11088 where id =1;
+update bets set price_bet = 11188 where id =2;
+
+alter table lots modify date_creation DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL;
+alter table lots drop column bets_id;
+   alter table lots drop constraint lots_ibfk_4;
+
+select title, img, start_price, date_creation, date_finish, name_category, lot_id, count(lot_id),
+       max(price_bet) from lots
+join categories c on c.id = lots.category_id
+left join bets b on lots.id = b.lot_id
+where date_finish > now()
+group by lot_id, img, start_price, date_creation, date_finish, name_category, title
+order by date_creation desc;

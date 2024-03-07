@@ -2,7 +2,23 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/node_modules" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/bignumber.js" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/core-util-is" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/es.shim" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/inherits" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/isarray" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/mysql" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/mysqli" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/process-nextick-args" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/readable-stream" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/safe-buffer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/sqlstring" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/string_decoder" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/node_modules/util-deprecate" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/php-8.0.30-src" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

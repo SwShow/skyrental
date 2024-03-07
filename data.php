@@ -13,13 +13,15 @@ $goods = [
               "title" => "2014 Rossignol District Snowboard",
               "category" => $categories["boards"],
               "price" => 10999,
-              "image" => "img/lot-1.jpg"
+              "image" => "img/lot-1.jpg",
+              "expiration" => "2023-08-10"
            ],
            [
               "title" => "DC Ply Mens 2016/2017 Snowboard",
               "category" => $categories["boards"],
               "price" => 159999,
-              "image" => "img/lot-2.jpg"
+              "image" => "img/lot-2.jpg",
+
            ],
            [
               "title" => "Крепления Union Contact Pro 2015 года размер L/XL",

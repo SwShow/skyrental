@@ -29,6 +29,8 @@
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost"><?= format_num(htmlspecialchars($good["price"])); ?></span>
                         </div>
+
+
                         <div class="lot__timer timer">
 12:23
 </div>
